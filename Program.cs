@@ -6,6 +6,7 @@ class Helloweb
 {
     static void Main(string[] args)
     {
+        var origins = "_origins";
 
         //Estrutura basica de uma aplicação cliente servidor ***
         //Configurar uma aplicação cliente servidor
@@ -18,6 +19,16 @@ class Helloweb
             config.Version = "v1";
         });
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: origins,
+            policy =>
+                {
+                    policy.WithOrigins("http://localhost:3000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+        });
         //cria a aplicação que a gente configurou em cima "new WebAplication"
         	
         builder.Services.AddDbContext<AppDbContext>();
@@ -33,7 +44,7 @@ class Helloweb
                 config.DocExpansion = "list";
             });
         }
-
+        app.UseCors(origins);
         //Retorna a lista
     
         app.MapGet("/Pedidos", (AppDbContext context) =>
