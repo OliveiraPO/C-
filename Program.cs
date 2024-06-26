@@ -117,7 +117,7 @@ class Helloweb
             }
             return Results.NotFound();
         }).Produces<Pedido>();
-        app.MapPatch("/PedidosPatch", (AppDbContext context, Guid id, RestaurantePatchModel nome) =>
+        app.MapPatch("/PedidosPatch/{id}", (AppDbContext context, Guid id, RestaurantePatchModel nome) =>
         {
             var pedidoAlterado= new Pedido(Guid.NewGuid(),"","",0);
             foreach (Pedido pedido in context.Pedidos)
